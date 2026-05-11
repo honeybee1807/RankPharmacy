@@ -20,6 +20,15 @@
 
 html { scroll-behavior: smooth; }
 
+.brand-logo {
+  height: 54px;        /* adjust to taste */
+  width: auto;
+  display: block;
+  /* The logo has a black background, so either: */
+  mix-blend-mode: multiply;   /* option A — blends away the black on light headers */
+  /* or crop it out at source if you have a transparent-bg version */
+}
+
 body {
   margin: 0;
   font-family: 'Manrope', system-ui, -apple-system, sans-serif;
@@ -297,16 +306,140 @@ img, svg { display: block; max-width: 100%; }
 .map-wrap { aspect-ratio: 16 / 9; background: var(--bgtint); display: flex; align-items: center; justify-content: center; }
 .map-foot { padding: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 
-/* ============ footer ============ */
-.footer { border-top: 1px solid var(--rule); background: rgba(255,255,255,0.8); backdrop-filter: blur(8px); }
-.footer-grid { display: grid; gap: 40px; padding: 56px 0; }
-@media (min-width: 768px) { .footer-grid { grid-template-columns: 5fr 3fr 4fr; } }
-.footer h4 { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink3); letter-spacing: 0.14em; margin: 0 0 16px; font-weight: 500; }
-.footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
-.footer ul a { color: var(--ink2); }
-.footer ul a:hover { color: var(--primary); }
-.footer-bar { border-top: 1px solid var(--rule); padding: 20px 0; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; color: var(--ink3); font-size: 14px; }
+/* ── Footer ─────────────────────────────────────────── */
+.footer {
+  background: #0A1628;
+  color: #cdd6f0;
+  padding: 60px 0 0;
+  font-size: 0.92rem;
+}
 
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.4fr 1.2fr;
+  gap: 40px;
+}
+
+/* Logo column */
+.footer-logo img {
+  height: 52px;
+  width: auto;
+  display: block;
+  margin-bottom: 16px;
+  mix-blend-mode: multiply; /* swap to 'screen' if footer stays dark */
+}
+
+.footer-logo p {
+  color: #8fa0c0;
+  line-height: 1.7;
+  max-width: 300px;
+}
+
+/* Column headings */
+.footer-column h3 {
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+/* Links list */
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-column ul li a {
+  color: #8fa0c0;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-column ul li a:hover {
+  color: #00B8A9;
+}
+
+/* Contact rows */
+.footer-column p {
+  color: #8fa0c0;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.5;
+}
+
+.footer-column p i {
+  color: #00B8A9;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.footer-column p a {
+  color: #8fa0c0;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-column p a:hover {
+  color: #00B8A9;
+}
+
+/* Trading hours */
+.footer-hours p {
+  margin: 0 0 8px;
+}
+
+/* Bottom bar */
+.footer-bottom {
+  max-width: 1200px;
+  margin: 48px auto 0;
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #5a6a88;
+}
+
+.footer-bottom .credit a {
+  color: #00B8A9;
+  text-decoration: none;
+}
+
+.footer-bottom .credit a:hover {
+  text-decoration: underline;
+}
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 540px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
 /* ============ WhatsApp FAB ============ */
 .whatsapp-fab {
   position: fixed; right: 24px; bottom: 24px; z-index: 60;
