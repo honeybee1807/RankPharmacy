@@ -120,11 +120,11 @@
       (Math.random() - 0.5) * 1.2
     );
 
-    pill.userData.vx         = (Math.random() - 0.5) * 0.0025;
-    pill.userData.vy         = (Math.random() - 0.5) * 0.0018;
-    pill.userData.spinX      = (Math.random() - 0.5) * 0.002;
-    pill.userData.spinY      = (Math.random() - 0.5) * 0.0015;
-    pill.userData.spinZ      = (Math.random() - 0.5) * 0.001;
+    pill.userData.vx         = (Math.random() - 0.5) * 0.0016;
+    pill.userData.vy         = (Math.random() - 0.5) * 0.0011;
+    pill.userData.spinX      = (Math.random() - 0.5) * 0.0012;
+    pill.userData.spinY      = (Math.random() - 0.5) * 0.0009;
+    pill.userData.spinZ      = (Math.random() - 0.5) * 0.0006;
     pill.userData.floatOff   = Math.random() * Math.PI * 2;
     // Closer pills respond more to scroll — reinforces parallax depth
     pill.userData.depthFactor = 1 - (layer / Math.min(...depthLayers));
@@ -175,8 +175,8 @@
     lastScrollY = currentScrollY;
 
     // Smooth: fast attack when scrolling, slow decay when stopped
-    const target = scrollVel * 0.065;
-    smoothVel += (target - smoothVel) * (scrollVel !== 0 ? 0.25 : 0.06);
+    const target = scrollVel * 0.028;
+    smoothVel += (target - smoothVel) * (scrollVel !== 0 ? 0.12 : 0.035);
 
     // Mouse parallax → group tilt
     pmx += (mx - pmx) * 0.032;
@@ -195,12 +195,12 @@
       pill.position.y -= smoothVel * u.depthFactor;
 
       // Sine bob (unique phase per pill)
-      pill.position.y += Math.sin(now * 0.00042 + u.floatOff) * 0.00055;
+      pill.position.y += Math.sin(now * 0.00042 + u.floatOff) * 0.00035;
 
       // Spin — spins up slightly with scroll speed
-      const spinBoost = Math.abs(smoothVel) * 0.4;
-      pill.rotation.x += u.spinX + spinBoost * 0.008;
-      pill.rotation.y += u.spinY + spinBoost * 0.005;
+      const spinBoost = Math.abs(smoothVel) * 0.15;
+      pill.rotation.x += u.spinX + spinBoost * 0.004;
+      pill.rotation.y += u.spinY + spinBoost * 0.0025;
       pill.rotation.z += u.spinZ;
 
       // Wrap at bounds
