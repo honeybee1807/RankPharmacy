@@ -1,12 +1,10 @@
 // ============================================================
 // Rank Pharmacy — Floating Pills background
 // ============================================================
-// Translucent capsule pills drift slowly across a clean white
-// scene. Scroll velocity is tracked each frame and injected
-// directly into pill speed — the faster you scroll, the more
-// the pills rush. When scrolling stops they ease back to idle.
-// Mouse parallax adds a gentle depth tilt.
-// Mobile reduces pill count for 60fps.
+// Fatter, chunkier capsule pills drift very slowly across a
+// clean white scene. Scroll adds only a whisper of extra
+// movement — subtle, not distracting. Idle bob and spin are
+// barely perceptible. Mobile drops pill count for 60fps.
 // ============================================================
 
 (function () {
@@ -26,23 +24,23 @@
 
   // ── Scene & Camera ────────────────────────────────────────
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0xFAFBFC, 12, 28);
+  scene.fog = new THREE.Fog(0xFAFBFC, 14, 30);
 
   const camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 100);
   camera.position.set(0, 0, 12);
 
   // ── Lighting ──────────────────────────────────────────────
-  scene.add(new THREE.AmbientLight(0xFFFFFF, 0.92));
+  scene.add(new THREE.AmbientLight(0xFFFFFF, 0.95));
 
-  const key = new THREE.DirectionalLight(0xE8F4FF, 0.7);
+  const key = new THREE.DirectionalLight(0xE8F4FF, 0.65);
   key.position.set(5, 8, 8);
   scene.add(key);
 
-  const fill = new THREE.DirectionalLight(0xB8F0EA, 0.5);
+  const fill = new THREE.DirectionalLight(0xB8F0EA, 0.45);
   fill.position.set(-7, -3, 5);
   scene.add(fill);
 
-  const rim = new THREE.DirectionalLight(0xCFE9FF, 0.28);
+  const rim = new THREE.DirectionalLight(0xCFE9FF, 0.25);
   rim.position.set(0, -6, -8);
   scene.add(rim);
 
@@ -52,44 +50,46 @@
 
   // ── Pill colour palette (brand) ───────────────────────────
   const pillConfigs = [
-    { color: 0x003087, opacity: 0.22, transmission: 0.55 }, // navy
-    { color: 0x003087, opacity: 0.14, transmission: 0.65 }, // navy light
-    { color: 0x00B8A9, opacity: 0.20, transmission: 0.55 }, // teal
-    { color: 0x00B8A9, opacity: 0.13, transmission: 0.65 }, // teal light
-    { color: 0xA3D9C9, opacity: 0.18, transmission: 0.60 }, // sage
-    { color: 0x6EA8CC, opacity: 0.16, transmission: 0.60 }, // soft blue
+    { color: 0x003087, opacity: 0.20, transmission: 0.58 }, // navy
+    { color: 0x003087, opacity: 0.12, transmission: 0.68 }, // navy ghost
+    { color: 0x00B8A9, opacity: 0.18, transmission: 0.58 }, // teal
+    { color: 0x00B8A9, opacity: 0.11, transmission: 0.68 }, // teal ghost
+    { color: 0xA3D9C9, opacity: 0.16, transmission: 0.62 }, // sage
+    { color: 0x6EA8CC, opacity: 0.14, transmission: 0.62 }, // soft blue
   ];
 
   // ── Pill builder ──────────────────────────────────────────
-  // Two hemisphere endcaps + a cylinder body grouped as one object.
+  // R = radius (girth)  — nearly double the previous value
+  // H = half-length of cylinder body
+  // Keeping R:H ~1:2 so they still read as capsules, not spheres
   function makePill(cfg) {
     const pill = new THREE.Group();
 
     const mat = new THREE.MeshPhysicalMaterial({
-      color: cfg.color,
-      transparent: true,
-      opacity: cfg.opacity,
-      roughness: 0.12,
-      metalness: 0.0,
-      transmission: cfg.transmission,
-      thickness: 0.6,
-      clearcoat: 0.5,
-      clearcoatRoughness: 0.08,
-      side: THREE.FrontSide,
+      color:              cfg.color,
+      transparent:        true,
+      opacity:            cfg.opacity,
+      roughness:          0.10,
+      metalness:          0.0,
+      transmission:       cfg.transmission,
+      thickness:          1.2,
+      clearcoat:          0.6,
+      clearcoatRoughness: 0.06,
+      side:               THREE.FrontSide,
     });
 
-    const R = 0.18;
-    const H = 0.52;
+    const R = 0.32;   // was 0.18 — much fatter
+    const H = 0.68;   // was 0.52 — slightly longer
 
-    const bodyGeo = new THREE.CylinderGeometry(R, R, H * 2, 20, 1);
+    const bodyGeo = new THREE.CylinderGeometry(R, R, H * 2, 24, 1);
     pill.add(new THREE.Mesh(bodyGeo, mat));
 
-    const topGeo = new THREE.SphereGeometry(R, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2);
+    const topGeo = new THREE.SphereGeometry(R, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2);
     const top = new THREE.Mesh(topGeo, mat);
     top.position.y = H;
     pill.add(top);
 
-    const botGeo = new THREE.SphereGeometry(R, 20, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
+    const botGeo = new THREE.SphereGeometry(R, 24, 12, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
     const bot = new THREE.Mesh(botGeo, mat);
     bot.position.y = -H;
     pill.add(bot);
@@ -98,35 +98,36 @@
   }
 
   // ── Spawn pills ───────────────────────────────────────────
-  const pills = [];
-  const pillCount = isMobile ? 14 : 32;
+  // Fewer pills — they're bigger now, fewer looks cleaner
+  const pills       = [];
+  const pillCount   = isMobile ? 8 : 18;
   const depthLayers = isMobile ? [-1, -3, -5] : [-1, -2.5, -4, -6];
 
   for (let i = 0; i < pillCount; i++) {
-    const cfg = pillConfigs[i % pillConfigs.length];
-    const pill = makePill(cfg);
-
+    const cfg   = pillConfigs[i % pillConfigs.length];
+    const pill  = makePill(cfg);
     const layer = depthLayers[i % depthLayers.length];
 
     pill.position.set(
       (Math.random() - 0.5) * 24,
       (Math.random() - 0.5) * 14,
-      layer + (Math.random() - 0.5) * 0.8
+      layer + (Math.random() - 0.5) * 0.6
     );
 
+    // Gentle, natural-looking tilt angles — not fully tumbling
     pill.rotation.set(
-      Math.random() * Math.PI,
-      Math.random() * Math.PI,
-      (Math.random() - 0.5) * 1.2
+      (Math.random() - 0.5) * 0.8,
+      (Math.random() - 0.5) * 0.8,
+      (Math.random() - 0.5) * 1.4
     );
 
-    pill.userData.vx         = (Math.random() - 0.5) * 0.0016;
-    pill.userData.vy         = (Math.random() - 0.5) * 0.0011;
-    pill.userData.spinX      = (Math.random() - 0.5) * 0.0012;
-    pill.userData.spinY      = (Math.random() - 0.5) * 0.0009;
-    pill.userData.spinZ      = (Math.random() - 0.5) * 0.0006;
+    // ── Very slow idle motion ──────────────────────────────
+    pill.userData.vx         = (Math.random() - 0.5) * 0.0006;  // drift X
+    pill.userData.vy         = (Math.random() - 0.5) * 0.0004;  // drift Y
+    pill.userData.spinX      = (Math.random() - 0.5) * 0.0004;  // tumble X
+    pill.userData.spinY      = (Math.random() - 0.5) * 0.0003;  // tumble Y
+    pill.userData.spinZ      = (Math.random() - 0.5) * 0.0002;  // tumble Z
     pill.userData.floatOff   = Math.random() * Math.PI * 2;
-    // Closer pills respond more to scroll — reinforces parallax depth
     pill.userData.depthFactor = 1 - (layer / Math.min(...depthLayers));
 
     group.add(pill);
@@ -134,33 +135,31 @@
   }
 
   // ── Scroll velocity tracking ──────────────────────────────
-  // Sampled per-frame for smooth results. Raw delta is scaled and
-  // then exponentially smoothed — fast attack, slow decay.
   let lastScrollY = window.scrollY;
   let scrollVel   = 0;
   let smoothVel   = 0;
 
-  // ── Mouse parallax state ──────────────────────────────────
+  // ── Mouse parallax ────────────────────────────────────────
   let mx = 0, my = 0, pmx = 0, pmy = 0;
   window.addEventListener('mousemove', (e) => {
     mx = (e.clientX / window.innerWidth  - 0.5);
     my = (e.clientY / window.innerHeight - 0.5);
   });
 
-  // ── GSAP camera drift on scroll ───────────────────────────
-  // Very gentle — the scroll velocity on pills is the main effect.
+  // ── GSAP camera drift — barely noticeable ─────────────────
   if (typeof gsap !== 'undefined' && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
     gsap.to(camera.position, {
-      z: 8, y: -1.0, ease: 'none',
+      z: 9.5, y: -0.6, ease: 'none',
       scrollTrigger: {
-        trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 1.8
+        trigger: 'body', start: 'top top', end: 'bottom bottom',
+        scrub: 6   // extremely sluggish scrub — camera barely follows
       }
     });
   }
 
   // ── Bounds ────────────────────────────────────────────────
-  const BX = 13, BY = 8;
+  const BX = 13, BY = 9;
 
   // ── Animation loop ────────────────────────────────────────
   let last = performance.now();
@@ -169,41 +168,42 @@
     const dt = Math.min((now - last) / 1000, 0.05);
     last = now;
 
-    // Sample scroll delta this frame
+    // Scroll delta — sampled each frame
     const currentScrollY = window.scrollY;
-    scrollVel  = currentScrollY - lastScrollY;
+    scrollVel   = currentScrollY - lastScrollY;
     lastScrollY = currentScrollY;
 
-    // Smooth: fast attack when scrolling, slow decay when stopped
-    const target = scrollVel * 0.028;
-    smoothVel += (target - smoothVel) * (scrollVel !== 0 ? 0.12 : 0.035);
+    // Scale factor 0.008  (was 0.065) — 8× less scroll influence
+    // Attack 0.06          (was 0.25)  — slow pickup
+    // Decay  0.02          (was 0.06)  — very slow fade back to idle
+    const target = scrollVel * 0.004;
+    smoothVel += (target - smoothVel) * (scrollVel !== 0 ? 0.03 : 0.01);
 
-    // Mouse parallax → group tilt
-    pmx += (mx - pmx) * 0.032;
-    pmy += (my - pmy) * 0.032;
-    group.rotation.x += (pmy * 0.07 - group.rotation.x) * 0.032;
-    group.rotation.y += (pmx * 0.05 - group.rotation.y) * 0.032;
+    // Mouse parallax — barely-there group tilt
+    pmx += (mx - pmx) * 0.015;
+    pmy += (my - pmy) * 0.015;
+    group.rotation.x += (pmy * 0.03 - group.rotation.x) * 0.015;
+    group.rotation.y += (pmx * 0.02 - group.rotation.y) * 0.015;
 
     pills.forEach((pill) => {
       const u = pill.userData;
 
-      // Idle drift
+      // Slow idle drift
       pill.position.x += u.vx;
       pill.position.y += u.vy;
 
-      // Scroll velocity — depth-adjusted
+      // Whisper-level scroll nudge
       pill.position.y -= smoothVel * u.depthFactor;
 
-      // Sine bob (unique phase per pill)
-      pill.position.y += Math.sin(now * 0.00042 + u.floatOff) * 0.00035;
+      // Extremely gentle sine bob — period ~94 seconds per cycle
+      pill.position.y += Math.sin(now * 0.00018 + u.floatOff) * 0.00022;
 
-      // Spin — spins up slightly with scroll speed
-      const spinBoost = Math.abs(smoothVel) * 0.15;
-      pill.rotation.x += u.spinX + spinBoost * 0.004;
-      pill.rotation.y += u.spinY + spinBoost * 0.0025;
+      // Slow tumble only — no scroll spin boost
+      pill.rotation.x += u.spinX;
+      pill.rotation.y += u.spinY;
       pill.rotation.z += u.spinZ;
 
-      // Wrap at bounds
+      // Wrap at scene edges
       if (pill.position.x >  BX) pill.position.x = -BX;
       if (pill.position.x < -BX) pill.position.x =  BX;
       if (pill.position.y >  BY) pill.position.y = -BY;
