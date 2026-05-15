@@ -76,4 +76,4 @@ Drop the folder on Netlify, Vercel, Cloudflare Pages, GitHub Pages, or any stati
 - Address: 158 Alexandra Street, Estcourt 3310, KZN
 - WhatsApp: 072 132 4385
 - Phone: 036 352 5201
-- Email: rank51933@gmail.com
+- Email: info@rankpharmacy.co.za
