@@ -26,22 +26,31 @@
     if (href && href.endsWith(path)) a.classList.add('active');
   });
 
-  // Contact form (EmailJS-ready stub)
-  const form = document.getElementById('contact-form');
+  // Contact form — EmailJS
+  const form   = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   if (form) {
+    emailjs.init('PaTEVVbF32oky6nYa');
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (status) { status.classList.remove('ok'); status.textContent = 'Sending...'; }
-      // EmailJS integration:
-      //   emailjs.init('YOUR_PUBLIC_KEY');
-      //   emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form)
-      //     .then(() => { status.textContent = '✓ Sent.'; form.reset(); })
-      //     .catch(err => { status.textContent = 'Error: ' + err.text; });
-      setTimeout(() => {
-        if (status) { status.classList.add('ok'); status.textContent = '✓ Thank you. We will reply within one business day.'; }
-        form.reset();
-      }, 700);
+
+      emailjs.sendForm('service_qsokdum', 'template_xlt2wtm', form)
+        .then(() => {
+          if (status) {
+            status.classList.add('ok');
+            status.textContent = '✓ Thank you. We will reply within one business day.';
+          }
+          form.reset();
+        })
+        .catch(err => {
+          if (status) {
+            status.classList.remove('ok');
+            status.textContent = 'Something went wrong. Please call us on 036 352 5201.';
+          }
+          console.error('EmailJS error:', err);
+        });
     });
   }
 })();
