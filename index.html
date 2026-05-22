@@ -13,7 +13,7 @@
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://www.rankpharmacy.co.za/index.html" />
   <meta property="og:title"       content="Rank Pharmacy Estcourt | Quality Healthcare for All" />
-  <meta property="og:description" content="Independent community pharmacy in Estcourt, KZN. Prescription dispensing, health screenings, wellness consultations." />
+  <meta property="og:description" content="Independent community pharmacy in Estcourt, KZN. Prescription dispensing, health screenings and wellness consultations." />
   <meta property="og:image"       content="https://www.rankpharmacy.co.za/RankPharmacy_Logo.png" />
   <meta property="og:image:alt"   content="Rank Pharmacy logo" />
   <meta property="og:site_name"   content="Rank Pharmacy" />
@@ -38,6 +38,22 @@
     "@context": "https://schema.org",
     "@type": "Pharmacy",
     "name": "Rank Pharmacy",
+    "description": "Rank Pharmacy is an independent community pharmacy in Estcourt, KwaZulu-Natal. We offer prescription dispensing, chronic medication management, health screenings, wellness consultations, wound care and baby care — all delivered personally by the owner-pharmacist.",
+    "areaServed": {
+      "@type": "GeoCircle",
+      "geoMidpoint": {
+        "@type": "GeoCoordinates",
+        "latitude": -29.0044,
+        "longitude": 29.8710
+      },
+      "geoRadius": "20000"
+    },
+    "hasMap": "https://www.google.com/maps/place/158+Alexandra+St,+Estcourt,+3310",
+    "currenciesAccepted": "ZAR",
+    "paymentAccepted": "Cash, Credit Card, Medical Aid",
+    "isAccessibleForFree": false,
+    "knowsAbout": ["Pharmacy", "Prescription Dispensing", "Health Screenings", "Chronic Medication", "Wellness Consultations"],
+    
     "url": "https://www.rankpharmacy.co.za",
     "logo": "https://www.rankpharmacy.co.za/RankPharmacy_Logo.png",
     "image": "https://www.rankpharmacy.co.za/RankPharmacy_Logo.png",
@@ -82,6 +98,55 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Rank Pharmacy Estcourt",
+        "item": "https://www.rankpharmacy.co.za"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Rank Pharmacy",
+    "alternateName": "Rank Pharmacy Estcourt",
+    "@id": "https://www.rankpharmacy.co.za",
+    "url": "https://www.rankpharmacy.co.za",
+    "telephone": "+27363525201",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "158 Alexandra Street",
+      "addressLocality": "Estcourt",
+      "addressRegion": "KwaZulu-Natal",
+      "postalCode": "3310",
+      "addressCountry": "ZA"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -29.0044,
+      "longitude": 29.8710
+    },
+    "servesCuisine": null,
+    "serviceArea": {
+      "@type": "GeoCircle",
+      "geoMidpoint": {
+        "@type": "GeoCoordinates",
+        "latitude": -29.0044,
+        "longitude": 29.8710
+      },
+      "geoRadius": "25000"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -126,7 +191,7 @@
     <div class="reveal">
       <span class="pill"><span class="dot"></span>ESTCOURT, KZN</span>
       <h1 class="h-display">Quality Healthcare.<br/><span class="ital">For every patient.</span><br/></h1>
-      <p class="lead">Your trusted community pharmacy on 158 Alexandra Street, Estcourt. Quality healthcare for every patient.</p>
+      <p class="lead">Your trusted independent community pharmacy at 158 Alexandra Street, Estcourt, KwaZulu-Natal — serving Estcourt, Umtshezi and the KZN Midlands. Quality healthcare, close to home.</p>
       <div class="flex-wrap-row" style="margin-top:32px;">
         <a href="https://wa.me/27721324385" target="_blank" rel="noopener" class="btn-primary">Message on WhatsApp</a>
         <a href="about.html" class="btn-ghost">Our story</a>
@@ -157,7 +222,7 @@
     </div>
     <div class="trust-item reveal">
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#003087" stroke-width="2"><path d="M4 18h6l4-10 6 18 4-12h8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div><div class="label">Clinical Expertise</div><div class="sub">Up-to-date guidance.</div></div>
+      <div><div class="label">Clinical Expertise</div><div class="sub">Up-to-date guidance, every visit</div></div>
     </div>
     <div class="trust-item reveal">
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#003087" stroke-width="2"><rect x="4" y="8" width="28" height="20" rx="3"/><path d="M12 18h12M18 13v10" stroke-linecap="round"/></svg>
@@ -259,6 +324,31 @@
 </section>
 
 <!-- CTA BANNER -->
+
+<!-- LOCAL AREA SERVED — important for local SEO / Google Maps ranking -->
+<section class="section alt" style="padding:48px 0;">
+  <div class="container">
+    <div class="reveal" style="max-width:760px;margin:0 auto;text-align:center;">
+      <div class="eyebrow" style="justify-content:center;"><span class="bar"></span>SERVING OUR COMMUNITY<span class="bar"></span></div>
+      <h2 class="h-section">Your Pharmacy in <span class="ital">Estcourt</span></h2>
+      <p style="font-size:16px;color:#2B3A4E;line-height:1.8;margin:20px auto 0;max-width:680px;">
+        Rank Pharmacy has been Estcourt's trusted independent community pharmacy for many years, 
+        serving families across the <strong>KwaZulu-Natal Midlands</strong>. Conveniently located at 
+        <strong>158 Alexandra Street, Estcourt</strong> — close to the town centre, easily accessible 
+        to residents from Estcourt, Weenen, Colenso and surrounding areas.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:32px;">
+        <span style="background:#fff;border:1px solid #E2E8EE;border-radius:24px;padding:8px 20px;font-size:13px;color:#003087;font-weight:600;">📍 Estcourt, KZN</span>
+        <span style="background:#fff;border:1px solid #E2E8EE;border-radius:24px;padding:8px 20px;font-size:13px;color:#003087;font-weight:600;">🏥 Independent Pharmacy</span>
+        <span style="background:#fff;border:1px solid #E2E8EE;border-radius:24px;padding:8px 20px;font-size:13px;color:#003087;font-weight:600;">👨‍⚕️ Owner-Pharmacist Run</span>
+        <span style="background:#fff;border:1px solid #E2E8EE;border-radius:24px;padding:8px 20px;font-size:13px;color:#003087;font-weight:600;">💊 Prescription Dispensing</span>
+        <span style="background:#fff;border:1px solid #E2E8EE;border-radius:24px;padding:8px 20px;font-size:13px;color:#003087;font-weight:600;">🩺 Health Screenings</span>
+        <span style="background:#fff;border:1px solid #E2E8EE;border-radius:24px;padding:8px 20px;font-size:13px;color:#003087;font-weight:600;">💉 Chronic Medication</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="cta-banner reveal">
   <div class="container cta-banner-inner">
     <div>
@@ -303,7 +393,7 @@
       <p><i class="fa fa-inbox"></i> PO Box 517, Estcourt, 3310</p>
       <p><i class="fa fa-phone"></i> <a href="tel:0363525201">036 352 5201</a></p>
       <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/27721324385" target="_blank" rel="noopener">072 132 4385</a></p>
-      <p><i class="fa fa-envelope"></i> <a href="mailto:rank21933@gmail.com">rank21933@gmail.com</a></p>
+      <p><i class="fa fa-envelope"></i> <a href="mailto:info@rankpharmacy.co.za">info@rankpharmacy.co.za</a></p>
     </div>
     <div class="footer-column">
       <h3>Trading Hours</h3>
